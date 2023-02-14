@@ -4,10 +4,19 @@ import re
 
 class Hangman:
     def __init__(self, word):
-        self.word = word
+        self._word = word
+        self._life = 6
 
     def __str__(self):
-        return f"{self.word}"
+        return f"{self._word}"
+
+    def guess(self, letter):
+        if letter in self._word:
+            print(letter)
+            print(self._word)
+        else:
+            print("nope")
+            print(self._word)
 
     @classmethod
     def start(cls):
@@ -17,7 +26,8 @@ class Hangman:
 
 
 test = Hangman.start()
-print(test)
+while True:
+    test.guess(input("letter: "))
 
 # while True:
 #     test = []

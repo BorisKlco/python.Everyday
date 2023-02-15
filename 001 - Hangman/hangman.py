@@ -6,14 +6,24 @@ class Hangman:
     def __init__(self, word):
         self._word = word
         self._life = 6
+        self.hiddenWord = []
+        for letter in self._word:
+            self.hiddenWord.append("_")
 
     def __str__(self):
         return f"{self._word}"
 
+    def hidden(self, letter):
+        for position in range(len(self._word)):
+            if self._word[position] == letter:
+                self.hiddenWord[position] = letter
+
     def guess(self, letter):
         if letter in self._word:
+            self.hidden(letter)
             print(letter)
             print(self._word)
+            print(self.hiddenWord)
         else:
             print("nope")
             print(self._word)
@@ -44,3 +54,6 @@ while True:
 #         print("Only a-z")
 # else:
 #     print("Only one letter")
+
+
+# Hidden --> take input letter --> find it in "word" --> take "letter" location in "word" --> replace hidden["_"] with user "letter"

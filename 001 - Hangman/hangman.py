@@ -22,6 +22,7 @@ class Hangman:
             else:
                 self._life -= 1
         else:
+            print("\nWord was", self._word)
             sys.exit("Game over!")
 
     @property

@@ -1,5 +1,5 @@
 import requests
-import re
+import sys
 
 
 class Hangman:
@@ -10,23 +10,36 @@ class Hangman:
         for letter in self._word:
             self.hiddenWord.append("_")
 
-    def __str__(self):
-        return f"{self._word}"
-
     def hidden(self, letter):
         for position in range(len(self._word)):
             if self._word[position] == letter:
                 self.hiddenWord[position] = letter
 
     def guess(self, letter):
-        if letter in self._word:
-            self.hidden(letter)
-            print(letter)
-            print(self._word)
-            print(self.hiddenWord)
+        if self._life > 1:
+            if letter in self._word:
+                self.hidden(letter)
+            else:
+                self._life -= 1
         else:
-            print("nope")
-            print(self._word)
+            sys.exit("Game over!")
+
+    @property
+    def cheater(self):
+        print(self._word)
+
+    @property
+    def didIwon(self):
+        if "_" not in self.hiddenWord:
+            sys.exit("You WoN!")
+
+    @property
+    def word(self):
+        print(f"\nHP left:", self._life)
+        print("Word: ", end="")
+        for letter in self.hiddenWord:
+            print(letter, end=" ")
+        print("\n")
 
     @classmethod
     def start(cls):
@@ -35,25 +48,14 @@ class Hangman:
         return cls(word[0])
 
 
-test = Hangman.start()
-while True:
-    test.guess(input("letter: "))
-
-# while True:
-#     test = []
-#     word = getWord()
-#     for letter in word[0]:
-#         print(letter)
-
-# guess = input("Guess letter: ").lower()
-# if len(guess) == 1:
-#     if re.match(r"[a-z]", guess):
-#         print(guess)
-#         print(test)
-#     else:
-#         print("Only a-z")
-# else:
-#     print("Only one letter")
-
-
-# Hidden --> take input letter --> find it in "word" --> take "letter" location in "word" --> replace hidden["_"] with user "letter"
+game = Hangman.start()
+try:
+    while True:
+        # game.cheater
+        game.word
+        game.didIwon
+        game.guess(input("letter: "))
+except KeyboardInterrupt:
+    print("\nWord was ", end="")
+    game.cheater
+    sys.exit("Bye!")

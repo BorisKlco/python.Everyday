@@ -1,15 +1,5 @@
 import random
 
-ccards = [
-    (v, s)
-    for s in ["♥", "♠", "♣", "♦"]
-    for v in [str(i) for i in range(2, 11)] + list("JKQA")
-]
-
-# print(cards)
-# random.shuffle(cards)
-# print(cards)
-
 
 class Blackjack:
     def __init__(self) -> None:

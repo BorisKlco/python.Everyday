@@ -4,6 +4,8 @@ import time
 
 
 class Blackjack:
+    """Creating deck --> pulling 2 cards for player and dealer."""
+
     def __init__(self) -> None:
         self.cards = [
             (v, s)
@@ -15,12 +17,13 @@ class Blackjack:
         self.player = {"cards": [self.hit(), self.hit()]}
 
     def hit(self):
-        """Logic of pulling card from deck"""
+        """Pull(pick and remove) random card from pre-generated deck and return (value,suit)."""
         card = self.cards[random.randint(0, len(self.cards) - 1)]
         self.cards.remove(card)
         return card
 
     def score(self, position):
+        """Evaluate current value for cards for provided position. Return [value,value]."""
         value = [0, 0]
         for _, face in enumerate(position["cards"]):
             if face[0] in list("TJKQ"):
@@ -34,6 +37,7 @@ class Blackjack:
         return value
 
     def player_print(self):
+        """Shortcut for printing cards and value for Player."""
         print("Player: ", end="")
         for _, face in enumerate(self.player["cards"]):
             print(f"{face[0]}{face[1]} ", end="")
@@ -45,6 +49,7 @@ class Blackjack:
         )
 
     def dealer_print(self):
+        """Shortcut for printing cards and value for Dealer."""
         print("Delear: ", end="")
         for _, face in enumerate(self.dealer["cards"]):
             print(f"{face[0]}{face[1]} ", end="")
@@ -60,6 +65,14 @@ game = Blackjack()
 
 
 def start():
+    """Function creation for main game loop.
+    -Print hidden dealer cards + player
+    -Evaluate if player or dealer won on Blackjack
+    -userInput, get player cards
+    -Dealer logic:
+        -set card value for player,dealer
+        -while: if lost --> if less, if draw, if won
+    call start() in next while loop for input options."""
     print(f"Dealer: {game.dealer['cards'][0][0]}{game.dealer['cards'][0][1]} 🃏")
     game.player_print()
     print()

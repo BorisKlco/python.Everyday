@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 
 class Blackjack:
@@ -63,12 +64,18 @@ def start():
     game.player_print()
     print()
     if game.score(game.player) == ["Blackjack", 21]:
-        sys.exit("Blackjack! Player won.")
+        time.sleep(1)
+        print("Blackjack!")
+        time.sleep(0.5)
+        sys.exit("Congratulations, sir! Player won!")
     elif game.score(game.dealer) == ["Blackjack", 21]:
         print(
             f"Dealer: {game.dealer['cards'][0][0]}{game.dealer['cards'][0][1]} {game.dealer['cards'][1][0]}{game.dealer['cards'][1][1]}"
         )
-        sys.exit("Blackjack! Dealer won.")
+        time.sleep(1)
+        print("Blackjack!")
+        time.sleep(0.5)
+        sys.exit("Dealer won. Sorry, sir.")
     question = input("Hit (y/n)? ")
     if question.lower() == "y":
         next_card = game.hit()
@@ -79,24 +86,50 @@ def start():
             start()
         else:
             game.player_print()
-            sys.exit("More than 21, sorry.")
+            print()
+            time.sleep(1)
+            print("More than 21. Dealer won.")
+            time.sleep(1)
+            sys.exit("Sorry, sir. Good luck, next time!")
     elif question.lower() == "n":
-        # game.dealer_print()
-
-        # while game.score(game.dealer)[1] < game.score(game.player)[1]:
-        #     dealer_hit = game.hit()
-        #     print(f"Card for dealer: {dealer_hit[0]}{dealer_hit[1]}")
-        #     game.dealer["cards"].append(dealer_hit)
-
-        if game.score(game.dealer)[1] > 21:
-            game.dealer_print()
-            sys.exit("Dealer more than 21, Cg, you won!")
-        elif game.score(game.dealer)[1] < game.score(game.player)[1]:
-            game.player_print()
-            game.dealer_print()
-            sys.exit("Dealer won, sorry")
-
-        # sys.exit("More than 21, sorry.")
+        game.score(game.dealer)
+        if game.score(game.player)[0] > 22:
+            player_score = game.score(game.player)[1]
+        else:
+            player_score = game.score(game.player)[0]
+        while True:
+            if game.score(game.dealer)[0] > 22:
+                dealer_score = game.score(game.dealer)[1]
+            else:
+                dealer_score = game.score(game.dealer)[0]
+            if dealer_score < 22:
+                if dealer_score < player_score:
+                    dealer_hit = game.hit()
+                    game.dealer["cards"].append(dealer_hit)
+                    print(f"Card for dealer {dealer_hit[0]}{dealer_hit[1]}")
+                    time.sleep(1)
+                    game.dealer_print()
+                    time.sleep(1)
+                    print()
+                elif dealer_score == player_score:
+                    print()
+                    game.dealer_print()
+                    time.sleep(0.25)
+                    game.player_print()
+                    time.sleep(1)
+                    sys.exit("Draw!")
+                else:
+                    print()
+                    game.dealer_print()
+                    time.sleep(0.25)
+                    game.player_print()
+                    time.sleep(1)
+                    print()
+                    print("Dealer won.")
+                    sys.exit("Sorry, sir. Good luck, next time!")
+            else:
+                print("Dealer bust!")
+                sys.exit("Congratulations, sir! Player won!")
 
 
 while True:

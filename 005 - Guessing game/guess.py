@@ -22,12 +22,12 @@ def start():
 
 
 NUMBER = random.randint(1, 100)
-LIFES = start()
+LIVES = start()
 
 
 def guess(n):
     """Evaluate user number, try again if ValueError."""
-    global LIFES, NUMBER
+    global LIVES, NUMBER
     # print(NUMBER)
     try:
         if int(n) > NUMBER:
@@ -37,14 +37,14 @@ def guess(n):
         else:
             # int(n) == NUMBER:
             sys.exit(f"You won! Number was {NUMBER}")
-        print("Lifes left:", LIFES)
-        LIFES -= 1
+        print("Lives left:", LIVES)
+        LIVES -= 1
     except ValueError:
         print("Try number 1 to 100")
 
 
 while True:
-    if LIFES > -2:
+    if LIVES > -2:
         guess(input("Guess: "))
     else:
-        sys.exit("Out of lifes!")
+        sys.exit("Out of lives!")

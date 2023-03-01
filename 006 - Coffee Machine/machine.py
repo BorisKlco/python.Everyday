@@ -24,6 +24,14 @@ MENU = {
     },
 }
 
+profit = 0
+
+resources = {
+    "water": 1000,
+    "milk": 600,
+    "coffee": 200,
+}
+
 
 def resources_check(ingredients):
     for ingredient in ingredients:
@@ -41,13 +49,23 @@ def insert_coins():
     return total
 
 
-profit = 0
+def payment_status(payed, cost):
+    if payed >= cost:
+        global profit
+        change = round(payed - cost, 2)
+        profit += cost
+        print(f"Drink payed, ${change} returned")
+        return True
+    else:
+        print("Not enough money!")
+        return False
 
-resources = {
-    "water": 1000,
-    "milk": 600,
-    "coffee": 200,
-}
+
+def coffee_go_brrr(drink, ingredients):
+    for ingredient in ingredients:
+        resources[ingredient] -= ingredients[ingredient]
+    print(f"Here is {drink}")
+
 
 power = True
 
@@ -63,4 +81,6 @@ while power:
     else:
         drink = MENU[user_choice]
         if resources_check(drink["ingredients"]):
-            insert_coins()
+            payment = insert_coins()
+            if payment_status(payment, drink["cost"]):
+                coffee_go_brrr(user_choice, drink["ingredients"])

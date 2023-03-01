@@ -1,53 +1,66 @@
-"""
-resources 
-    3000ml water
-    2000ml milk
-    200g coffee
-3 drinks
-    Espresso - $1.50 - 50ml water, 18g coffee
-    Latte - $2.50 - 200ml water, 24g coffee, 150ml milk
-    Cappuccino - $3.00 - 250ml water, 24g coffee, 100ml milk
-Taking Coins
-    penny - 1c
-    Nickle - 5c
-    Dime - 10c
-    Quarter - 25c
-"""
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 1.5,
+    },
+}
 
 
-class Machine:
-    def __init__(self, ingredients, price):
-        self.ingredients = ingredients
-        self.price = price
-        self.water = 3000
-        self.milk = 2000
-        self.coffee = 200
-
-    def print(self):
-        print(self.ingredients, self.price)
+def resources_check(ingredients):
+    for ingredient in ingredients:
+        if resources[ingredient] < ingredients[ingredient]:
+            print(f"Sorry there is not enough {ingredient}")
+            return False
+        return True
 
 
-class Balance:
-    def deposit(self):
-        coins = [1, 5, 10, 25]
+def insert_coins():
+    total = int(input("quaters $0.25: ")) * 0.25
+    total += int(input("dimes $0.10: ")) * 0.10
+    total += int(input("nickles $0.05: ")) * 0.05
+    total += int(input("pennies $0.01: ")) * 0.01
+    return total
 
 
-class Coffee:
-    def espresso(self):
-        ingredients = {"water": 50, "milk": 0, "coffee": 18}
-        price = 1.5
-        return Machine(ingredients, price)
+profit = 0
 
-    def latte(self):
-        ingredients = {"water": 200, "milk": 150, "coffee": 24}
-        price = 2.5
-        return Machine(ingredients, price)
+resources = {
+    "water": 1000,
+    "milk": 600,
+    "coffee": 200,
+}
 
-    def cappuccino(self):
-        ingredients = {"water": 250, "milk": 100, "coffee": 24}
-        price = 3
-        return Machine(ingredients, price)
+power = True
 
-
-coffeeMachine = Coffee()
-coffeeMachine.latte().print()
+while power:
+    user_choice = input("What would you like? espresso/latte/cappuccino: ")
+    if user_choice == "off":
+        power = False
+    elif user_choice == "report":
+        print(f"Water: {resources['water']}ml")
+        print(f"Milk: {resources['milk']}ml")
+        print(f"Coffee: {resources['coffee']}g")
+        print(f"Money: ${profit}")
+    else:
+        drink = MENU[user_choice]
+        if resources_check(drink["ingredients"]):
+            insert_coins()

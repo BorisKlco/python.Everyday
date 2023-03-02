@@ -18,4 +18,5 @@ while power:
     else:
         drink = menu.find_drink(user_choice)
         if machine.is_resource_sufficient(drink):
-            print(drink)
+            if money.make_payment(drink.cost):
+                machine.make_coffee(drink)

@@ -61,10 +61,10 @@ def payment_status(payed, cost):
         return False
 
 
-def coffee_go_brrr(drink, ingredients):
+def coffee_go_brrr(drink_name, ingredients):
     for ingredient in ingredients:
         resources[ingredient] -= ingredients[ingredient]
-    print(f"Here is {drink}")
+    print(f"Here is {drink_name}")
 
 
 power = True

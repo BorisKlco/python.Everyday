@@ -41,10 +41,11 @@ dash_line()
 
 
 def draw_shapes():
-    """Draw a Triangle, square, pentagon, hex, hep, oct, mono and deca"""
+    """Draw a Triangle, square, pentagon, hex, hep, oct, mono and decagon"""
     for shape in range(3, 11):
+        timmy.speed(0)
         timmy.pencolor(r.random(), r.random(), r.random())
-        timmy.pensize(3)
+        timmy.pensize(2)
         for _ in range(shape):
             timmy.forward(100)
             timmy.right(360 / shape)
@@ -57,7 +58,8 @@ draw_shapes()
 def random_walk():
     """Draw a Random Walk"""
     turn = [270, 0, 90]
-    timmy.pensize(10)
+    timmy.speed(10)
+    timmy.pensize(3)
     timmy.pencolor(r.random(), r.random(), r.random())
     timmy.right(r.choice(turn))
     timmy.forward(25)
@@ -66,3 +68,18 @@ def random_walk():
 reset_pos(0, 0)
 for _ in range(100):
     random_walk()
+
+
+def draw_circle():
+    """Draw a random colored Circle"""
+    timmy.speed(0)
+    timmy.pensize(5)
+    timmy.pencolor(r.random(), r.random(), r.random())
+    timmy.circle(100)
+
+
+reset_pos(0, 0)
+# Spirograph: 36 circles , 10° degree rotation
+for _ in range(36):
+    draw_circle()
+    timmy.right(10)

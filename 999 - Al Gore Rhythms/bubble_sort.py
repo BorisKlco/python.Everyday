@@ -7,7 +7,7 @@ if bigger, than swap
 otherwise n +=1
 """
 bubble = [2, 1, 7, 5, 6, 9, 8, 3, 4]
-print("Bubble sort, usorted", bubble)
+print("Bubble sort, unsorted", bubble)
 
 for i in range(len(bubble) - 1):
     for n in range(len(bubble) - 1 - i):

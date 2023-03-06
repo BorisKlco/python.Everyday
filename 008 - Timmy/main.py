@@ -1,13 +1,16 @@
 """008 - Turtle"""
 from turtle import Screen, Turtle
 
-timmy = Turtle()
-screen = Screen()
-
 
 def resetPos():
-    timmy.setposition(0, 0)
+    timmy.penup()
+    timmy.setposition(-150, 150)
     timmy.pendown()
+
+
+timmy = Turtle()
+screen = Screen()
+resetPos()
 
 
 """Dash line"""
@@ -32,9 +35,9 @@ for _ in range(20):
 resetPos()
 
 """ Triangle, square, pentagon, hex, hep, oct, mono and deca"""
-for n in range(3, 10):
+for n in range(3, 11):
     for _ in range(n):
         v = float(n)
         timmy.pencolor(v / 15, v / 10, v / 12)
-        timmy.forward(50)
+        timmy.forward(100)
         timmy.right(360 / n)

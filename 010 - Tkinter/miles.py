@@ -10,7 +10,7 @@ def convert():
     user_input = km_input.get()
     try:
         miles_convert["text"] = round(float(user_input) * 0.62, 1)
-    except:
+    except ValueError:
         miles_convert["text"] = "Not a number"
 
 

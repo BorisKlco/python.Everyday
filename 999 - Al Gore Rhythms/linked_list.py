@@ -63,6 +63,7 @@ class LinkedList:
         return None
 
     def delete_head(self):
+        """Deleting first node"""
         print("Deleting first node")
         if self.head is None:
             return None

@@ -1,3 +1,4 @@
+import json
 import random
 import string
 from tkinter import *
@@ -7,7 +8,12 @@ from tkinter import messagebox
 def adding():
     """Adding acc to file"""
 
-    if mail_input.get() == "" or psw_input.get() == "":
+    website = site_input.get()
+    mail = mail_input.get()
+    psw = psw_input.get()
+    entry_data = {website: {"user": mail, "psw": psw}}
+
+    if mail == "" or psw == "":
         return messagebox.showwarning(title="Warning", message="Mail/Psw is empty!")
 
     if_ok = messagebox.askokcancel(
@@ -16,13 +22,28 @@ def adding():
     )
 
     if if_ok:
-        with open("psw.txt", "a", encoding="utf8") as pass_file:
-            pass_file.write(
-                f"{site_input.get()} | {mail_input.get()} | {psw_input.get()} \n"
-            )
+        try:
+            with open("psw.json", "r", encoding="utf8") as psw_file:
+                psw_json = json.load(psw_file)
+                psw_json.update(entry_data)
 
-    site_input.delete(0, END)
+            with open("psw.json", "w", encoding="utf8") as psw_file:
+                json.dump(psw_json, psw_file, indent=4)
+
+        except FileNotFoundError:
+            with open("psw.json", "w", encoding="utf8") as psw_file:
+                json.dump(entry_data, psw_file, indent=4)
+
     psw_input.delete(0, END)
+
+
+def search_site():
+    website = site_input.get()
+    with open("psw.json", "r", encoding="utf8") as psw_file:
+        psw_json = json.load(psw_file)
+
+        psw_input.delete(0, END)
+        psw_input.insert(0, psw_json[website]["psw"])
 
 
 def gen_psw():
@@ -48,8 +69,10 @@ canvas.grid(column=1, row=0)
 site_label = Label(text="Website:")
 site_label.focus()
 site_label.grid(column=0, row=1)
-site_input = Entry(width=35)
-site_input.grid(column=1, row=1, columnspan=2)
+site_input = Entry(width=23)
+site_input.grid(column=1, row=1, columnspan=1)
+search = Button(text="Search", command=search_site)
+search.grid(column=2, row=1)
 
 mail_label = Label(text="eMail/nick:")
 mail_label.grid(column=0, row=2)

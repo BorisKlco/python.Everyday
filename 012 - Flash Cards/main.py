@@ -20,17 +20,15 @@ check_wrong = PhotoImage(file="images/wrong.png")
 
 
 def start():
+    """words logic init, remove start button, add question buttons"""
     button_start.grid_forget()
     button_wrong.grid(column=0, row=1)
     button_right.grid(column=1, row=1)
     words_logic()
 
 
-def reset():
-    pass
-
-
 def words_logic():
+    """Pick 10 random words from csv, create tuples list, init game logic"""
     global words_list
     data = pandas.read_csv("data/french_words.csv")
     random_data = data.sample(n=10)
@@ -41,6 +39,10 @@ def words_logic():
 
 
 def game_logic():
+    """control len() of words list else call reset,
+    pick random tuple from list,
+    update canvas, give option to buttons
+    """
     global words_list, random_choice
     if len(words_list) > 0:
         random_choice = french, english = words_list[
@@ -67,6 +69,9 @@ def game_logic():
 
 
 def question(answer):
+    """remove tuple from words list,
+    reset canvas and button options
+    call game logic"""
     if answer == "right":
         words_list.remove(random_choice)
         main_canvas.itemconfigure(flip_card, image=card_front)

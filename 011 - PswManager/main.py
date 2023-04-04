@@ -87,8 +87,8 @@ psw_input.grid(column=1, row=3, columnspan=1)
 pas_gen = Button(text="Generate", command=gen_psw)
 pas_gen.grid(column=2, row=3)
 
-add_buttom = Button(text="Add", width=34, command=adding)
-add_buttom.grid(column=1, row=4, columnspan=2)
+add_button = Button(text="Add", width=34, command=adding)
+add_button.grid(column=1, row=4, columnspan=2)
 gen_psw()
 
 window.mainloop()

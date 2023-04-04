@@ -1,4 +1,6 @@
+import html
 import json
+import random
 from tkinter import *
 
 import requests
@@ -7,20 +9,59 @@ BACKGROUND_COLOR = "#B1DDC6"
 CANVAS_COLOR = "#FCDDB0"
 FONT_NAME = "Courier"
 TRIVIA_URL = "https://opentdb.com/api.php?amount=10&type=boolean"
+resp = requests.get(TRIVIA_URL, timeout=5)
+data = resp.json()
+QUESTIONS = data["results"]
+points = 0
 
 window = Tk()
 window.title("Trivia! True or False")
 window.minsize(width=600, height=600)
+window.maxsize(width=600, height=600)
 window.config(padx=100, pady=50, bg=BACKGROUND_COLOR)
 
-resp = requests.get(TRIVIA_URL, timeout=5)
-data = resp.json()
-
-print(data["results"][0])
+img_correct = PhotoImage(file="images/right.png")
+img_incorrect = PhotoImage(file="images/wrong.png")
 
 
-def ask_question():
-    main_canvas.itemconfig(question_text, text=data["results"][0]["question"])
+def pick_question():
+    global QUESTIONS
+
+    question_number = random.randint(0, len(QUESTIONS) - 1)
+
+    question = QUESTIONS[question_number]["question"]
+    answer = QUESTIONS[question_number]["correct_answer"]
+    QUESTIONS.remove(QUESTIONS[question_number])
+
+    return question, answer
+
+
+def ask_question(is_true=None):
+    global QUESTIONS, points
+    if is_true == "1":
+        points += 1
+    if len(QUESTIONS) > 0:
+        question, answer = pick_question()
+    else:
+        return winner()
+
+    main_canvas.itemconfig(question_text, text=html.unescape(question))
+    main_canvas.itemconfig(answer_text, text=answer)  # Cheater mode
+
+    if answer == "True":
+        correct.config(command=lambda: ask_question("1"))
+        incorrect.config(command=ask_question)
+    else:
+        correct.config(command=ask_question)
+        incorrect.config(command=lambda: ask_question("1"))
+
+
+def winner():
+    global points
+    main_canvas.itemconfig(question_text, text="Points", font=(FONT_NAME, 38, "bold"))
+    main_canvas.itemconfig(answer_text, text=points, font=(FONT_NAME, 32, "bold"))
+    correct.grid_forget()
+    incorrect.grid_forget()
 
 
 main_canvas = Canvas(
@@ -28,9 +69,15 @@ main_canvas = Canvas(
 )
 
 question_text = main_canvas.create_text(
-    (180, 150), text="", font=(FONT_NAME, 16, "bold"), width=300
+    (180, 150), text="", font=(FONT_NAME, 14), width=300
 )
+answer_text = main_canvas.create_text((200, 300), text="", font=(FONT_NAME, 16, "bold"))
 main_canvas.grid(column=0, row=0, columnspan=2)
+
+correct = Button(window, image=img_correct, command="None")
+correct.grid(column=0, row=1)
+incorrect = Button(window, image=img_incorrect, command="None")
+incorrect.grid(column=1, row=1)
 
 ask_question()
 

@@ -1,5 +1,4 @@
 import html
-import json
 import random
 from tkinter import *
 
@@ -25,6 +24,7 @@ img_incorrect = PhotoImage(file="images/wrong.png")
 
 
 def pick_question():
+    """Pick random question from list, remove question from list, return it as 2 variables"""
     global QUESTIONS
 
     question_number = random.randint(0, len(QUESTIONS) - 1)
@@ -37,6 +37,8 @@ def pick_question():
 
 
 def ask_question(is_true=None):
+    """Check if question can be picked --> Pick random question or call winner()
+    define question and answer, commands for buttons, loop over ask_question()"""
     global QUESTIONS, points
     if is_true == "1":
         points += 1
@@ -57,6 +59,7 @@ def ask_question(is_true=None):
 
 
 def winner():
+    """After winner is called, canvas labels are changed to show points, remove buttons"""
     global points
     main_canvas.itemconfig(question_text, text="Points", font=(FONT_NAME, 38, "bold"))
     main_canvas.itemconfig(answer_text, text=points, font=(FONT_NAME, 32, "bold"))
@@ -79,6 +82,6 @@ correct.grid(column=0, row=1)
 incorrect = Button(window, image=img_incorrect, command="None")
 incorrect.grid(column=1, row=1)
 
-ask_question()
+ask_question()  # Game start
 
 window.mainloop()
